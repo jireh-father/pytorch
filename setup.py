@@ -710,6 +710,13 @@ def print_box(msg):
 if __name__ == '__main__':
     # Parse the command line and check the arguments
     # before we proceed with building deps and setup
+    if 'CUDA_HOME' in os.environ:
+        print("CUDA_HOME ENV VAR!!!")
+        print(os.environ['CUDA_HOME'])
+    else:
+        print("NO CUDA_HOME ENV VAR!!!")
+
+
     dist = Distribution()
     dist.script_name = sys.argv[0]
     dist.script_args = sys.argv[1:]
