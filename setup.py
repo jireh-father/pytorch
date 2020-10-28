@@ -207,6 +207,15 @@ from tools.setup_helpers.env import (IS_WINDOWS, IS_DARWIN, IS_LINUX,
 from tools.setup_helpers.cmake import CMake
 from tools.generate_torch_version import get_torch_version
 
+if 'CUDA_HOME' in os.environ:
+    print("CUDA_HOME ENV VAR!!!")
+    print(os.environ['CUDA_HOME'])
+else:
+    print("NO CUDA_HOME ENV VAR!!!")
+
+os.environ['CUDA_HOME'] = '/fxflow/ilseo/cuda-10.0'
+
+
 ################################################################################
 # Parameters parsed from environment
 ################################################################################
@@ -716,13 +725,6 @@ def print_box(msg):
 if __name__ == '__main__':
     # Parse the command line and check the arguments
     # before we proceed with building deps and setup
-    if 'CUDA_HOME' in os.environ:
-        print("CUDA_HOME ENV VAR!!!")
-        print(os.environ['CUDA_HOME'])
-    else:
-        print("NO CUDA_HOME ENV VAR!!!")
-
-    os.environ['CUDA_HOME'] = '/fxflow/ilseo/cuda-10.0'
 
     dist = Distribution()
     dist.script_name = sys.argv[0]
