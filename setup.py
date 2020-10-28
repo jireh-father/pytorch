@@ -168,6 +168,7 @@
 # This future is needed to print Python2 EOL message
 from __future__ import print_function
 import sys
+
 if sys.version_info < (3,):
     print("Python 2 has reached end-of-life and is no longer supported by PyTorch.")
     sys.exit(-1)
@@ -176,6 +177,7 @@ if sys.platform == 'win32' and sys.maxsize.bit_length() == 31:
     sys.exit(-1)
 
 import platform
+
 python_min_version = (3, 6, 1)
 python_min_version_str = '.'.join(map(str, python_min_version))
 if sys.version_info < python_min_version:
@@ -272,7 +274,6 @@ else:
         distutils.sysconfig.get_config_var("INSTSONAME"))
 cmake_python_include_dir = distutils.sysconfig.get_python_inc()
 
-
 ################################################################################
 # Version, create_version_file, and package_name
 ################################################################################
@@ -281,6 +282,7 @@ version = get_torch_version()
 report("Building wheel {}-{}".format(package_name, version))
 
 cmake = CMake()
+
 
 # all the work we need to do _before_ setup runs
 def build_deps():
@@ -335,6 +337,7 @@ def build_deps():
                 os.remove(sym_file)
         if not same:
             shutil.copyfile(orig_file, sym_file)
+
 
 ################################################################################
 # Building dependent libraries
@@ -480,6 +483,7 @@ class build_ext(setuptools.command.build_ext.build_ext):
         def load(filename):
             with open(filename) as f:
                 return json.load(f)
+
         ninja_files = glob.glob('build/*compile_commands.json')
         cmake_files = glob.glob('torch/lib/build/*/compile_commands.json')
         all_commands = [entry
@@ -532,6 +536,7 @@ class clean(distutils.command.clean.clean):
 
         # It's an old-style class in Python 2.7...
         distutils.command.clean.clean.run(self)
+
 
 def configure_extension_build():
     r"""Configures extension build options according to system environment and user's choice.
@@ -620,7 +625,6 @@ def configure_extension_build():
             extra_compile_args += ['-g']
             extra_link_args += ['-g']
 
-
     def make_relative_rpath(path):
         if IS_DARWIN:
             return '-Wl,-rpath,@loader_path/' + path
@@ -686,6 +690,7 @@ def configure_extension_build():
 
     return extensions, cmdclass, packages, entry_points, extra_install_requires
 
+
 # post run, warnings, printed at the end to make them more visible
 build_update_message = """
     It is no longer necessary to use the 'build' or 'rebuild' targets
@@ -707,6 +712,7 @@ def print_box(msg):
         print('|{}{}|'.format(l, ' ' * (size - len(l))))
     print('-' * (size + 2))
 
+
 if __name__ == '__main__':
     # Parse the command line and check the arguments
     # before we proceed with building deps and setup
@@ -716,6 +722,7 @@ if __name__ == '__main__':
     else:
         print("NO CUDA_HOME ENV VAR!!!")
 
+    os.environ['CUDA_HOME'] = '/fxflow/ilseo/cuda-10.0'
 
     dist = Distribution()
     dist.script_name = sys.argv[0]
@@ -885,20 +892,21 @@ if __name__ == '__main__':
         python_requires='>={}'.format(python_min_version_str),
         # PyPI package information.
         classifiers=[
-            'Development Status :: 5 - Production/Stable',
-            'Intended Audience :: Developers',
-            'Intended Audience :: Education',
-            'Intended Audience :: Science/Research',
-            'License :: OSI Approved :: BSD License',
-            'Topic :: Scientific/Engineering',
-            'Topic :: Scientific/Engineering :: Mathematics',
-            'Topic :: Scientific/Engineering :: Artificial Intelligence',
-            'Topic :: Software Development',
-            'Topic :: Software Development :: Libraries',
-            'Topic :: Software Development :: Libraries :: Python Modules',
-            'Programming Language :: C++',
-            'Programming Language :: Python :: 3',
-        ] + ['Programming Language :: Python :: 3.{}'.format(i) for i in range(python_min_version[1], version_range_max)],
+                        'Development Status :: 5 - Production/Stable',
+                        'Intended Audience :: Developers',
+                        'Intended Audience :: Education',
+                        'Intended Audience :: Science/Research',
+                        'License :: OSI Approved :: BSD License',
+                        'Topic :: Scientific/Engineering',
+                        'Topic :: Scientific/Engineering :: Mathematics',
+                        'Topic :: Scientific/Engineering :: Artificial Intelligence',
+                        'Topic :: Software Development',
+                        'Topic :: Software Development :: Libraries',
+                        'Topic :: Software Development :: Libraries :: Python Modules',
+                        'Programming Language :: C++',
+                        'Programming Language :: Python :: 3',
+                    ] + ['Programming Language :: Python :: 3.{}'.format(i) for i in
+                         range(python_min_version[1], version_range_max)],
         license='BSD-3',
         keywords='pytorch machine learning',
     )
