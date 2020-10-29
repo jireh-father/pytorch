@@ -140,7 +140,7 @@ class CMake:
         command = ['CUDA_HOME=/home/aiflow/cuda-10.0', 'CUDA_TOOLKIT_ROOT_DIR=/home/aiflow/cuda-10.0',
                    'LD_LIBRARY_PATH=/usr/local/lib:/home/aiflow/cuda-10.0/lib64:$LD_LIBRARY_PATH',
                    self._cmake_command] + args
-        command = [self._cmake_command] + args
+        # command = [self._cmake_command] + args
         print(' '.join(command))
         check_call(command, cwd=self.build_dir, env=env)
 
