@@ -1,7 +1,5 @@
 "Manages CMake."
 
-
-
 import multiprocessing
 import os
 import re
@@ -29,6 +27,7 @@ def _mkdir_p(d):
 USE_NINJA = (not check_negative_env_flag('USE_NINJA') and
              which('ninja') is not None)
 
+
 def convert_cmake_value_to_python_value(cmake_value, cmake_type):
     r"""Convert a CMake value in a string form to a Python value.
 
@@ -52,6 +51,7 @@ def convert_cmake_value_to_python_value(cmake_value, cmake_type):
             return cmake_value
     else:  # Directly return the cmake_value.
         return cmake_value
+
 
 def get_cmake_cache_variables_from_file(cmake_cache_file):
     r"""Gets values in CMakeCache.txt into a dictionary.
@@ -90,6 +90,7 @@ def get_cmake_cache_variables_from_file(cmake_cache_file):
         results[variable] = convert_cmake_value_to_python_value(value, type_)
 
     return results
+
 
 class CMake:
     "Manages cmake."
@@ -136,7 +137,9 @@ class CMake:
     def run(self, args, env):
         "Executes cmake with arguments and an environment."
 
-        command = [self._cmake_command] + args
+        command = ['CUDA_HOME=/home/aiflow/cuda-10.0', 'CUDA_TOOLKIT_ROOT_DIR=/home/aiflow/cuda-10.0',
+                   'LD_LIBRARY_PATH=/usr/local/lib:/home/aiflow/cuda-10.0/lib64:$LD_LIBRARY_PATH',
+                   self._cmake_command] + args
         print(' '.join(command))
         check_call(command, cwd=self.build_dir, env=env)
 
